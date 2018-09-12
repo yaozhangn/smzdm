@@ -1,0 +1,14 @@
+mybatis:
+  config-location: classpath:mybatis.xml
+spring:
+  #配置velocity
+  velocity:
+    suffix: .html
+    #编码
+    charset: utf-8
+  #数据库
+  datasource:
+    url: jdbc:mysql://localhost:3306/smzdm?serverTimezone=GMT
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
