@@ -19,4 +19,6 @@ public interface UserMapper {
 
 
     User selectUserByUsernameAndPassword(HashMap<String, Object> hashMap);
+
+    User selectUserById(int id);
 }

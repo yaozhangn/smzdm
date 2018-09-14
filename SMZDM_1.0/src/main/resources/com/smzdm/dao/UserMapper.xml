@@ -11,4 +11,9 @@
     <select id="selectUserByUsernameAndPassword" parameterType="hashmap" resultType="com.smzdm.bean.User">
         select * from t_user where username=#{username} and password =#{password}
     </select>
+
+    <!--根据id查询用户-->
+    <select id="selectUserById" parameterType="int" resultType="com.smzdm.bean.User">
+        SELECT * FROM t_user where id=#{id};
+    </select>
 </mapper>

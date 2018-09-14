@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smzdm.dao.NewMapper">
+   <!-- <resultMap id="BaseResultMap" type="com.smzdm.bean.News">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="likeCount" jdbcType="INTEGER" property="likeCount" />
+        <result column="createdDate" jdbcType="TIMESTAMP" property="createdDate" />
+        <result column="image" jdbcType="VARCHAR" property="image" />
+        <result column="commentCount" jdbcType="INTEGER" property="commentCount" />
+        <result column="link" jdbcType="VARCHAR" property="link" />
+        <result column="name" javaType="VARCHAR" property="name"/>
+    </resultMap>-->
+    <!--插入一条资讯-->
+    <insert id="insertNews" parameterType="com.smzdm.bean.News" >
+        INSERT into t_news VALUES (null,#{news.title},#{news.link},#{news.image},#{news.commentCount},
+                                    #{news.createdDate},#{news.name},#{news.likeCount});
+    </insert>
+
+    <!--查询所有资讯-->
+    <select id="selectAllNews" resultType="com.smzdm.bean.News">
+        SELECT * FROM t_news;
+    </select>
+
+</mapper>

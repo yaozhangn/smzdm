@@ -81,5 +81,17 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectUserByUsername(username);
     }
 
+    /**
+     * 查看用户信息
+     * @param id
+     * @return
+     */
+    @Override
+    public User selectUserById(int id) {
+        return userMapper.selectUserById(id);
+    }
+
+
+
 
 }

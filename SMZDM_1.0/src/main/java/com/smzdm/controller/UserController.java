@@ -2,9 +2,11 @@ package com.smzdm.controller;
 
 import com.smzdm.bean.User;
 import com.smzdm.service.UserService;
+import com.smzdm.utils.MsgUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -43,34 +45,56 @@ public class UserController {
      */
     @RequestMapping("/login/")
     @ResponseBody
-    public HashMap login(User user, String rember, HttpSession session){
-        HashMap<String, Object> hashMap = new HashMap<>();
+    public MsgUtils login(User user, String rember, HttpSession session){
 
         //参数校验
         String password = user.getPassword();
         String username = user.getUsername();
         if (username == null || username.isEmpty()){
-            hashMap.put("code",1);
-            hashMap.put("msgname","用户名不能为空");
-            return hashMap;
+            return new MsgUtils(1,"用户名不能为空",null);
+
         }else if (password ==null || password.isEmpty()){
-            hashMap.put("msgpwd","密码不能为空");
-            return hashMap;
+           return new MsgUtils(1,null,"密码不能为空");
         }
 
         User user1 = userService.selectUserByUsernameAndPassword(username,password);
-        hashMap.put("code",0);
+
         if (user1 != null){
             session.setAttribute("user",user1);
+            return new MsgUtils(0,null,null);
         }else{
             //判断用户名错误还是密码错误
            User user2 = userService.selectUserByUsername(username);
            if(user2 != null){
-               hashMap.put("msgpwd","密码错误");
+               return new MsgUtils(1, null, "密码错误");
            }else{
-               hashMap.put("msgname","用户名不正确");
+                return new MsgUtils(1, "用户名不正确", null);
            }
         }
-        return hashMap;
+
+    }
+
+    /**
+     * 查看用户信息
+     */
+    @RequestMapping("/user/{id}")
+    public ModelAndView findUserMsg(User user,ModelAndView model){
+
+        User user1 = userService.selectUserById(user.getId());
+        model.addObject("user",user1);
+        model.setViewName("personal");
+
+        return model;
+    }
+
+    /**
+     * 用户注销登录
+     */
+    @RequestMapping("/logout/")
+    public String logout(HttpSession session,ModelAndView modelAndView){
+        if (session!=null){
+            session.invalidate();
+        }
+        return "home";
     }
 }

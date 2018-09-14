@@ -13,4 +13,7 @@ public interface UserService {
     User selectUserByUsernameAndPassword(String username, String password);
 
     User selectUserByUsername(String username);
+
+    User selectUserById(int id);
+
 }
