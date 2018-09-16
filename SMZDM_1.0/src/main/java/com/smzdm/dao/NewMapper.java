@@ -14,4 +14,7 @@ public interface NewMapper {
 
     List<News> selectAllNews();
 
+    News selectNewsById(int id);
+
+    void updateNewsCommentCountById(@Param("news") News news);
 }

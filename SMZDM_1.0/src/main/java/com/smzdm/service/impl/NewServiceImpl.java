@@ -37,4 +37,14 @@ public class NewServiceImpl implements NewService {
         return newMapper.selectAllNews();
     }
 
+    /**
+     * 按id查询资讯
+     * @param id
+     * @return
+     */
+    @Override
+    public News selectNewsById(int id) {
+        return newMapper.selectNewsById(id);
+    }
+
 }

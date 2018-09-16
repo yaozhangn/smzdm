@@ -10,4 +10,5 @@ public interface NewService {
 
     List<News> selectAllNews();
 
+    News selectNewsById(int id);
 }

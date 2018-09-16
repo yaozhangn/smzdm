@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smzdm.dao.CommentMapper">
+
+    <!--根据nid查询评论-->
+    <select id="selectCommentListByNid" parameterType="integer" resultType="com.smzdm.bean.Comment">
+        SELECT * from t_comment WHERE nid=#{id};
+    </select>
+
+    <!--增加一个评论-->
+    <insert id="insertComment" parameterType="com.smzdm.bean.Comment">
+        INSERT INTO t_comment VALUES (null,#{comment.content},#{comment.createdDate},
+                                           #{comment.uid},#{comment.nid});
+    </insert>
+</mapper>

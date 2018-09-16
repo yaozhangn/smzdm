@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.smzdm.dao.NewMapper">
-   <!-- <resultMap id="BaseResultMap" type="com.smzdm.bean.News">
-        <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="title" jdbcType="VARCHAR" property="title" />
-        <result column="likeCount" jdbcType="INTEGER" property="likeCount" />
-        <result column="createdDate" jdbcType="TIMESTAMP" property="createdDate" />
-        <result column="image" jdbcType="VARCHAR" property="image" />
-        <result column="commentCount" jdbcType="INTEGER" property="commentCount" />
-        <result column="link" jdbcType="VARCHAR" property="link" />
-        <result column="name" javaType="VARCHAR" property="name"/>
-    </resultMap>-->
     <!--插入一条资讯-->
     <insert id="insertNews" parameterType="com.smzdm.bean.News" >
         INSERT into t_news VALUES (null,#{news.title},#{news.link},#{news.image},#{news.commentCount},
@@ -21,5 +11,15 @@
     <select id="selectAllNews" resultType="com.smzdm.bean.News">
         SELECT * FROM t_news;
     </select>
+
+    <!--按id查询资讯-->
+    <select id="selectNewsById" parameterType="int" resultType="com.smzdm.bean.News">
+        SELECT * from t_news WHERE id=#{id};
+    </select>
+
+    <!--更新资讯评论数-->
+    <update id="updateNewsCommentCountById" parameterType="com.smzdm.bean.News">
+        UPDATE t_news SET commentCount=#{news.commentCount} where id=#{news.id}
+    </update>
 
 </mapper>

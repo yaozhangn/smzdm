@@ -10,7 +10,7 @@ public class News {
     /**
      * 资讯编号
      */
-    private int id;
+    private Integer id;
     /**
      * 资讯标题
      */
@@ -45,11 +45,16 @@ public class News {
      */
     private String name;
 
-    public int getId() {
+    /**
+     * 外键实体
+     */
+    private User user;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -107,6 +112,14 @@ public class News {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
