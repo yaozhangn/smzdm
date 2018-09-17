@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
@@ -47,14 +49,13 @@ public class UserController {
      */
     @RequestMapping("/login/")
     @ResponseBody
-    public MsgUtils login(User user, String rember, HttpSession session){
+    public MsgUtils login(User user, Integer rember, HttpSession session, HttpServletResponse response){
 
         //参数校验
         String password = user.getPassword();
         String username = user.getUsername();
         if (username == null || username.isEmpty()){
             return new MsgUtils(1,"用户名不能为空",null);
-
         }else if (password ==null || password.isEmpty()){
            return new MsgUtils(1,null,"密码不能为空");
         }
@@ -63,6 +64,20 @@ public class UserController {
 
         if (user1 != null){
             session.setAttribute("user",user1);
+            if(rember.equals(1)){
+                //记住用户登录信息
+                //创建cookie对象
+                Cookie namecookie = new Cookie("username",username);
+                Cookie passwordcookie = new Cookie("password", password);
+                //设置cookie的有效期，一周
+                namecookie.setMaxAge(60*60*24*7);
+                passwordcookie.setMaxAge(60*60*24*7);
+                //设置cookie的路径，保证首页可以读取
+                passwordcookie.setPath("/");
+                namecookie.setPath("/");
+                response.addCookie(namecookie);
+                response.addCookie(passwordcookie);
+            }
             return new MsgUtils(0,null,null);
         }else{
             //判断用户名错误还是密码错误
@@ -73,7 +88,6 @@ public class UserController {
                 return new MsgUtils(1, "用户名不正确", null);
            }
         }
-
     }
 
     /**
