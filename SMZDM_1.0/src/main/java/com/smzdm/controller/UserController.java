@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -31,9 +33,9 @@ public class UserController {
      * @param user
      * @return
      */
-    @RequestMapping("/reg/")
+    @RequestMapping(value = "/reg/",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
-    public HashMap register(User user,HttpSession session){
+    public HashMap register(User user, HttpSession session){
 
         HashMap<String, Object> hashMap = userService.register(user,session);
 

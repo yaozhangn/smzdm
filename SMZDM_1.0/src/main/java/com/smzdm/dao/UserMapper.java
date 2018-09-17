@@ -15,7 +15,7 @@ public interface UserMapper {
     User selectUserByUsername(String username);
 
 
-    void insertUserByUsernameAndPassword(HashMap<String, Object> map);
+    void insertUserByUsernameAndPassword(@Param("user") User user);
 
 
     User selectUserByUsernameAndPassword(HashMap<String, Object> hashMap);

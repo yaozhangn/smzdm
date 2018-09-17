@@ -3,6 +3,7 @@ package com.smzdm.service.impl;
 import com.smzdm.bean.User;
 import com.smzdm.dao.UserMapper;
 import com.smzdm.service.UserService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,40 +24,52 @@ public class UserServiceImpl implements UserService {
      */
     @Transactional
     @Override
-    public HashMap register(User user, HttpSession session) {
+    public HashMap register(User user,HttpSession session) {
 
         HashMap<Object, Object> hashMap = new HashMap<>();
 
-        String username = user.getUsername();
-        System.out.println("username 1 = " +username );
-
-        //可用参数校验
-        if (username==null || username.isEmpty()){
-            hashMap.put("code",1);
+        //参数校验
+        if (StringUtils.isBlank(user.getUsername())){
+            //判断用户名为空
             hashMap.put("msgname","用户名不能为空");
-        }else{
-            User ret = userMapper.selectUserByUsername(username);
-
-            if (ret != null) {
-                hashMap.put("code", 1);
-                hashMap.put("msgname", "用户名已经被注册");
-            } else {
-                //执行注册操作
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("username",username);
-                map.put("password",user.getPassword());
-                userMapper.insertUserByUsernameAndPassword(map);
-                hashMap.put("code", 0);
-
-                //注册成功，保存用户信息
-                User user1 = userMapper.selectUserByUsername(username);
-                session.setAttribute("user",user1);
-
-            }
+            return hashMap;
         }
 
+        if (StringUtils.isBlank(user.getPassword())){
+            //判断密码为空
+            hashMap.put("msgpwd","密码不能为空");
+            return hashMap;
+        }
+
+        User user1 = userMapper.selectUserByUsername(user.getUsername());
+        if (user1 != null){
+            //用户名已经存在
+            hashMap.put("msgname","用户名已存在");
+            return hashMap;
+        }
+
+        //https://my-user-head.oss-cn-shenzhen.aliyuncs.com/1.jpg
+        String headUrl = String.format("https://my-user-head.oss-cn-shenzhen.aliyuncs.com/%s.jpg", (int)(Math.random() * 6) + 1);
+        user.setHeadUrl(headUrl);
+        //注册用户
+        userMapper.insertUserByUsernameAndPassword(user);
+        hashMap.put("code",0);
+
+        //注册成功之后，自动登录
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("username",user.getUsername());
+        map.put("password",user.getPassword());
+        User user2 = userMapper.selectUserByUsernameAndPassword(map);
+        if (user2 !=null){
+            //存在该用户，保存用户信息
+            session.setAttribute("user",user2);
+        }else {
+            hashMap.put("msgpwd","注册失败");
+            return hashMap;
+        }
         return hashMap;
     }
+
 
     /**
      * 用户登录

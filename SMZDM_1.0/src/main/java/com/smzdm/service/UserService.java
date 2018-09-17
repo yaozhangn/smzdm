@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public interface UserService {
 
-    HashMap register(User user, HttpSession session);
+    HashMap register(User user,HttpSession session);
 
 
     User selectUserByUsernameAndPassword(String username, String password);
