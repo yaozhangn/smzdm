@@ -8,7 +8,6 @@ import com.smzdm.bean.User;
 import com.smzdm.service.CommentService;
 import com.smzdm.service.NewService;
 import com.smzdm.service.UserService;
-import org.apache.ibatis.annotations.Param;
 import org.apache.velocity.tools.generic.DateTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

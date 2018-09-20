@@ -22,4 +22,9 @@
         UPDATE t_news SET commentCount=#{news.commentCount} where id=#{news.id}
     </update>
 
+    <!--更新资讯点赞数-->
+    <update id="updateLikeCountById" parameterType="hashmap" >
+        UPDATE t_news SET likeCount=#{likeCount} where id=#{id};
+    </update>
+
 </mapper>

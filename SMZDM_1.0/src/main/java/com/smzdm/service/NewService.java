@@ -11,4 +11,6 @@ public interface NewService {
     List<News> selectAllNews();
 
     News selectNewsById(int id);
+
+    void updateLikeCount(int newsId, long likeCount);
 }
